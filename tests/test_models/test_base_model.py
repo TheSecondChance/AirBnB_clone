@@ -77,11 +77,11 @@ class Test_str(unittest.TestCase):
         self.assertTrue(str(self.temp_model).startswith("[BaseModel]"))
         self.assertIn(self.temp_model.id, str(self.temp_model))
         self.assertIn(str(self.temp_model.__dict__), str(self.temp_model))
-        must_be = f"""
-        [{type(self.temp_model).__name__}]
-        ({self.temp_model.id})
-        {self.temp_model.__dict__}
-        """
+        must_be = (
+            f"[{type(self.temp_model).__name__}] "
+            f"({self.temp_model.id}) "
+            f"{self.temp_model.__dict__}"
+        )
         self.assertEqual(self.temp_model.__str__(), must_be)
 
 
