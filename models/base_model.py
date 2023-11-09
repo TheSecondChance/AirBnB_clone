@@ -3,6 +3,7 @@
 base class for all models in this hbnb clone"""
 import uuid
 from datetime import datetime
+import models
 
 
 class BaseModel:
@@ -24,9 +25,12 @@ class BaseModel:
             self.created_at = datetime.utcnow()
             self.updated_at = datetime.utcnow()
 
+        models.storage.new(self)
+
     def save(self):
         """updated current date time"""
         self.updated_at = datetime.utcnow()
+        models.storage.save()
 
     def __str__(self):
         """string representation
