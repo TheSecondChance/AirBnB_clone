@@ -1,12 +1,15 @@
 #!/usr/bin/python3
 
 import cmd
+from models.base_model import BaseModel
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
     """Commnad casll"""
 
     prompt = "(hbnb) "
+    classe = ["BaseModel"]
 
     def do_quit(self, line):
         """Quit command to exit the program"""
@@ -71,6 +74,58 @@ class HBNBCommand(cmd.Cmd):
                     storage.save()
                 else:
                     print("** no instance found **")
+
+    def do_all(self, line):
+        """All Command
+        Prints all string representation of all instances
+        based or not on the class name
+        """
+        objects = storage.all()
+
+        if line != "":
+            items = line.split(" ")
+            if items[0] not in self.classe:
+                print("** class doesn't exist **")
+            else:
+                for key, value in objects.items():
+                    if key.split(".")[0] == items[0]:
+                        print(str(value))
+        else:
+            for key, value in objects.items():
+                print(str(value))
+
+    def do_update(self, line):
+        """Update Command
+        Updates an instance based on the class name and
+        id by adding or updating attribute"""
+        items_of_update = line.split()
+        if len(line) == 0:
+            print("** class name missing **")
+        elif items_of_update[0] not in self.classe:
+            print("** class doesn't exist **")
+        elif len(items_of_update) < 2:
+            print("** instance id missing **")
+        else:
+            items = storage.all()
+            key = "{}.{}".format(items_of_update[0], items_of_update[1])
+            if key not in items:
+                print("** no instance found **")
+            elif len(items_of_update) < 3:
+                print("** attribute name missing **")
+            elif len(items_of_update) < 4:
+                print("** value missing **")
+            else:
+                ful_item = items["{}.{}".format(
+                    items_of_update[0], items_of_update[1])]
+                item_first = items_of_update[2]
+                item_first_v = items_of_update[3]
+
+                try:
+                    item_first_v = eval(item_first_v)
+                except Exception:
+                    pass
+                setattr(ful_item, item_first, item_first_v)
+                ful_item.save()
 
 
 if __name__ == '__main__':
