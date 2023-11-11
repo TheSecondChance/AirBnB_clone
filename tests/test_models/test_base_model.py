@@ -2,7 +2,7 @@
 """Test the BaseModle"""
 import unittest
 from datetime import datetime
-
+import models
 
 class Test_init_method(unittest.TestCase):
     """Test init method
