@@ -4,6 +4,7 @@
 import json
 import os
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -36,11 +37,15 @@ class FileStorage:
 
     def save(self):
         """Serializes __objects to the JSON file (path: __file_path)"""
+        hulu_items = FileStorage.__objects
+        dict_item = {}
+        for obj in hulu_items.keys():
+            dict_item[obj] = hulu_items[obj].to_dict()
         with open(FileStorage.__file_path, "w", encoding="utf-8") as file:
-            obj_dict = {
+            dict_item = {
                     ke: val.to_dict()
                     for ke, val in FileStorage.__objects.items()}
-            json.dump(obj_dict, file)
+            json.dump(dict_item, file)
 
     def reload(self):
         """Deserializes the JSON file to __objects
@@ -54,10 +59,17 @@ class FileStorage:
             with open(FileStorage.__file_path, "r", encoding="utf-8") as file:
                 try:
                     deserialize = json.load(file)
-                    class_name = {"BaseModel": BaseModel}
                     FileStorage.__objects = {
-                        ke: class_name[ke.split(".")[0]](**kwa)
+                        ke: self.classe()[ke.split(".")[0]](**kwa)
                         for ke, kwa in deserialize.items()
                     }
                 except Exception:
                     pass
+
+    def classe(self):
+        """Valid classe and references be"""
+        from models.base_model import BaseModel
+        from models.user import User
+
+        classe = {"BaseModel": BaseModel, "User": User}
+        return classe
