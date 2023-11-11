@@ -12,7 +12,7 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """instatntiat object"""
         format = "%Y-%m-%dT%H:%M:%S.%f"
-        if kwargs is not None and kwargs != {}:
+        if kwargs != {}:
             for key, value in kwargs.items():
                 if key == "__class__":
                     continue
