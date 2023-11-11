@@ -18,12 +18,12 @@ class BaseModel:
                     continue
                 elif key == "created_at" or key == "updated_at":
                     setattr(self, key, datetime.strptime(value, format))
-                setattr(self, key, value)
-        else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.utcnow()
-            self.updated_at = datetime.utcnow()
-            storage.new(self)
+               setattr(self, key, value)
+            return
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.utcnow()
+        self.updated_at = datetime.utcnow()
+        storage.new(self)
         storage.new(self)
 
     def save(self):
