@@ -4,7 +4,6 @@ import cmd
 
 from models.base_model import BaseModel
 from models import storage
-import ast
 from models.user import User
 
 
