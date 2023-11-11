@@ -3,7 +3,7 @@
 import unittest
 import models
 import os
-from models.base_model import BaseModel
+from ...models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
 
