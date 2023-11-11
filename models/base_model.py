@@ -26,8 +26,6 @@ class BaseModel:
             self.updated_at = datetime.utcnow()
             storage.new(self)
 
-        storage.new(self)
-
     def save(self):
         """updated current date time"""
         self.updated_at = datetime.utcnow()
