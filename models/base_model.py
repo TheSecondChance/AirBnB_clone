@@ -18,8 +18,7 @@ class BaseModel:
                     continue
                 elif key == "created_at" or key == "updated_at":
                     setattr(self, key, datetime.strptime(value, format))
-                else:
-                    setattr(self, key, value)
+                setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.utcnow()
