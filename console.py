@@ -1,15 +1,17 @@
 #!/usr/bin/python3
 """Command interpreter Console"""
 import cmd
+
 from models.base_model import BaseModel
 from models import storage
+import ast
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
     """Commnad casll"""
 
     prompt = "(hbnb) "
-    classe = ["BaseModel"]
 
     def do_quit(self, line):
         """Quit command to exit the program"""
@@ -29,11 +31,11 @@ class HBNBCommand(cmd.Cmd):
         """Create Command to create BaseModel"""
         if len(line) == 0:
             print("** class name missing **")
-        elif line not in self.classe:
+        elif line not in storage.classe():
             print("** class doesn't exist **")
         else:
-            created_instance = BaseModel()
-            created_instance.save()
+            created_instance = eval(f"{line}()")
+            storage.save()
             print(created_instance.id)
 
     def do_show(self, line):
@@ -43,14 +45,14 @@ class HBNBCommand(cmd.Cmd):
 
         if len(line) == 0:
             print("** class name missing **")
-        elif class_id_name[0] not in self.classe:
+        elif class_id_name[0] not in storage.classe():
             print("** class doesn't exist **")
         elif len(class_id_name) < 2:
             print("** instance id missing **")
         else:
             item = storage.all()
             key = "{}.{}".format(class_id_name[0], class_id_name[1])
-            if key not in item:
+            if key not in storage.all():
                 print("** no instance found **")
             else:
                 print(item[key])
@@ -62,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             id_name = line.split()
-            if id_name[0] not in self.classe:
+            if id_name[0] not in storage.classe():
                 print("** class doesn't exist **")
             elif len(id_name) < 2:
                 print("** instance id missing **")
@@ -84,7 +86,7 @@ class HBNBCommand(cmd.Cmd):
 
         if line != "":
             items = line.split(" ")
-            if items[0] not in self.classe:
+            if items[0] not in storage.classe():
                 print("** class doesn't exist **")
             else:
                 for key, value in objects.items():
@@ -101,7 +103,7 @@ class HBNBCommand(cmd.Cmd):
         items_of_update = line.split()
         if len(line) == 0:
             print("** class name missing **")
-        elif items_of_update[0] not in self.classe:
+        elif items_of_update[0] not in storage.classe():
             print("** class doesn't exist **")
         elif len(items_of_update) < 2:
             print("** instance id missing **")
@@ -128,5 +130,5 @@ class HBNBCommand(cmd.Cmd):
                 ful_item.save()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     HBNBCommand().cmdloop()
