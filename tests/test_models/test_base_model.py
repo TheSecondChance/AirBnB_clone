@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Test the BaseModle"""
 import unittest
-from models.base_model import BaseModel
+from ...models.base_model import BaseModel
 from datetime import datetime
 
 
