@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""Command interpreter Console"""
 import cmd
 from models.base_model import BaseModel
 from models import storage
