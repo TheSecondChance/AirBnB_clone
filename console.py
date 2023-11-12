@@ -100,6 +100,10 @@ class HBNBCommand(cmd.Cmd):
             for key, value in objects.items():
                 print(str(value))
 
+    def func(self):
+        functons_dect = {"all": self.do_all}
+        return functons_dect
+
     def do_update(self, line):
         """Update Command
         Updates an instance based on the class name and
@@ -132,6 +136,19 @@ class HBNBCommand(cmd.Cmd):
                     pass
                 setattr(ful_item, item_first, item_first_v)
                 ful_item.save()
+
+    def default(self, line):
+        """Cmd module
+        retrieve all instances of a class by using
+        <class name>.all()"""
+        separet_com = line.split(".")
+        class_name = separet_com[0]
+        second_tezaz = separet_com[1]
+        second_tezaz_separet = second_tezaz.split("(")
+        all_dict_commnd = second_tezaz_separet[0]
+
+        if all_dict_commnd in self.func().keys():
+            return self.func()[all_dict_commnd]("{} {}".format(class_name, ""))
 
 
 if __name__ == "__main__":
