@@ -106,6 +106,7 @@ class HBNBCommand(cmd.Cmd):
                 "all": self.do_all,
                 "destroy": self.do_destroy,
                 "count": self.do_count,
+                "update": self.do_update,
                 "show": self.do_show}
         return functons_dect
 
@@ -113,7 +114,7 @@ class HBNBCommand(cmd.Cmd):
         """Update Command
         Updates an instance based on the class name and
         id by adding or updating attribute"""
-        items_of_update = line.split()
+        items_of_update = shlex.split(line)
         if len(line) == 0:
             print("** class name missing **")
         elif items_of_update[0] not in storage.classe():
@@ -154,9 +155,17 @@ class HBNBCommand(cmd.Cmd):
         prentesis = second_tezaz_separet[1]
         show_prentsis = prentesis.split(")")
         desplay = show_prentsis[0]
+        intayer = desplay.split(",")
         if all_dict_commnd in self.func().keys():
-            return self.func()[all_dict_commnd]("{} {}".format(
-                class_name, desplay))
+            if all_dict_commnd == "update":
+                object_i, namee = intayer[0], intayer[1]
+                value = intayer[2]
+                return self.func()[all_dict_commnd](
+                    "{} {} {} {}".format(class_name, object_i, namee, value)
+                )
+            else:
+                return self.func()[all_dict_commnd]("{} {}".format(
+                    class_name, desplay))
 
     def do_count(self, line):
         """Count instances of class"""
