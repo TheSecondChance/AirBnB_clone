@@ -101,7 +101,7 @@ class HBNBCommand(cmd.Cmd):
                 print(str(value))
 
     def func(self):
-        functons_dect = {"all": self.do_all}
+        functons_dect = {"all": self.do_all, "count": self.do_count}
         return functons_dect
 
     def do_update(self, line):
@@ -149,6 +149,23 @@ class HBNBCommand(cmd.Cmd):
 
         if all_dict_commnd in self.func().keys():
             return self.func()[all_dict_commnd]("{} {}".format(class_name, ""))
+
+    def do_count(self, line):
+        """Count instances of class"""
+        objects = storage.all()
+        insta_counter = 0
+        separted = line.split(" ")
+        class_name = separted[0]
+
+        if not class_name:
+            print("** class name missing **")
+        elif class_name not in storage.classe():
+            print("** class doesn't exist **")
+        else:
+            for obj in objects.values():
+                if obj.__class__.__name__ == class_name:
+                    insta_counter += 1
+            print(insta_counter)
 
 
 if __name__ == "__main__":
