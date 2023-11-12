@@ -68,7 +68,7 @@ class HBNBCommand(cmd.Cmd):
         if len(line) == 0:
             print("** class name missing **")
         else:
-            id_name = line.split()
+            id_name = shlex.split(line)
             if id_name[0] not in storage.classe():
                 print("** class doesn't exist **")
             elif len(id_name) < 2:
@@ -102,7 +102,10 @@ class HBNBCommand(cmd.Cmd):
                 print(str(value))
 
     def func(self):
-        functons_dect = {"all": self.do_all, "count": self.do_count,
+        functons_dect = {
+                "all": self.do_all,
+                "destroy": self.do_destroy,
+                "count": self.do_count,
                 "show": self.do_show}
         return functons_dect
 
@@ -151,10 +154,9 @@ class HBNBCommand(cmd.Cmd):
         prentesis = second_tezaz_separet[1]
         show_prentsis = prentesis.split(")")
         desplay = show_prentsis[0]
-
-
         if all_dict_commnd in self.func().keys():
-            return self.func()[all_dict_commnd]("{} {}".format(class_name, desplay))
+            return self.func()[all_dict_commnd]("{} {}".format(
+                class_name, desplay))
 
     def do_count(self, line):
         """Count instances of class"""
