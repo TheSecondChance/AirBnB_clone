@@ -9,6 +9,7 @@ from models.state import State
 from models.amenity import Amenity
 from models.city import City
 from models.place import Place
+import shlex
 from models.review import Review
 
 
@@ -45,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, line):
         """Show Command
         String representation of an instance based on the class name"""
-        class_id_name = line.split(" ")
+        class_id_name = shlex.split(line)
 
         if len(line) == 0:
             print("** class name missing **")
@@ -101,7 +102,8 @@ class HBNBCommand(cmd.Cmd):
                 print(str(value))
 
     def func(self):
-        functons_dect = {"all": self.do_all, "count": self.do_count}
+        functons_dect = {"all": self.do_all, "count": self.do_count,
+                "show": self.do_show}
         return functons_dect
 
     def do_update(self, line):
@@ -141,14 +143,18 @@ class HBNBCommand(cmd.Cmd):
         """Cmd module
         retrieve all instances of a class by using
         <class name>.all()"""
-        separet_com = line.split(".")
-        class_name = separet_com[0]
-        second_tezaz = separet_com[1]
+        arg_list = line.split(".")
+        class_name = arg_list[0]
+        second_tezaz = arg_list[1]
         second_tezaz_separet = second_tezaz.split("(")
         all_dict_commnd = second_tezaz_separet[0]
+        prentesis = second_tezaz_separet[1]
+        show_prentsis = prentesis.split(")")
+        desplay = show_prentsis[0]
+
 
         if all_dict_commnd in self.func().keys():
-            return self.func()[all_dict_commnd]("{} {}".format(class_name, ""))
+            return self.func()[all_dict_commnd]("{} {}".format(class_name, desplay))
 
     def do_count(self, line):
         """Count instances of class"""
